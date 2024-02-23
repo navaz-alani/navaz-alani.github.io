@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<link rel="stylesheet" href="/_assets/main.css" />
+
+    <title>Email Standards: SPF, DKIM and DMARC - My site</title>
+  </head>
+  <body>
+    <div class="main">
+      <nav class="navigation">
+        <a href="/">My site</a>
+      </nav>
+      <article>
+        <header>
+          <h1 class="article-title">Email Standards: SPF, DKIM and DMARC</h1>
+          <div class="article-info">
+            <div>
+              <span
+                >Created At：<time datetime="1708446186074"
+                  >2024-02-20 09:23</time
+                ></span
+              >
+              <span
+                >Updated At：<time datetime="1708658075408"
+                  >2024-02-22 20:14</time
+                ></span
+              >
+            </div>
+            
+          </div>
+        </header>
+        <div class="article-content markdown-body"><h1 id="email-standards-spf-dkim-dmarc">Email Standards: SPF, DKIM &amp; DMARC</h1>
+<p>Domain-based Message Authentication, Reporting and Conformance (DMARC) is an authentication policy that uses two other policies:</p>
+<ul>
+<li>Sender Policy Framework (SPF) provides authorization
+<ul>
+<li>Identifies which mail servers can send mail on behalf of the custom <code>MAIL FROM</code> domain configured in DNS.</li>
+</ul>
+<blockquote>
+<p><code>MAIL FROM</code> is also called the <code>RETURN PATH</code>, <code>ENVELOPE FROM</code>, <code>BOUNCE ADDRESS</code> and is an email address.</p>
+</blockquote>
+<ul>
+<li>Recipient mail servers will check the SPF to ensure that the sending server is allowed to send mail for the <code>MAIL FROM</code> domain</li>
+<li>Designed to prevent spoofing, but not 100% reliable, so also need to use DKIM</li>
+</ul>
+</li>
+<li>DomainKeys Identified Mail (DKIM) provides authentication
+<ul>
+<li>Adds a digital signature to the messages, in a header</li>
+<li>The recipient servers can then confirm that the signature matches a key that the domain owns (public key in the DNS)</li>
+<li>Since the signature is in a header, DKIM works when a mail server chooses to forward email unchanged (which would fail under SPF)</li>
+</ul>
+</li>
+</ul>
+<p>Both SPF and DKIM verify things that ther user cannot see, namely that the <code>MAIL FROM</code> aligns with the sending server's IP (SPF) and that the message is signed properly by the <code>MAIL FROM</code> domain. In particular, there is no checks done against the address that the user's see, the <code>FROM</code> address. DMARC fixes this:</p>
+<ol>
+<li>There must be alignment on at least 1 of the classic SPF/DKIM checks on the <code>MAIL FROM</code> address.</li>
+<li>For further SPF alignment (if previously aligned), DMARC requires that the <code>FROM</code> address and the <code>MAIL FROM</code> address have the same domain.</li>
+<li>For further DKIM alignment (if previously aligned), DMARC requires that the domain specificed in the DKIM signature matches the one in the <code>FROM</code> address.</li>
+</ol>
+<h6 id="references">References</h6>
+<ul>
+<li><a href="https://www.cloudflare.com/learning/dns/dns-records/dns-txt-record/">What is a DNS TXT record? | Cloudflare</a></li>
+</ul>
+</div>
+      </article>
+    </div>
+  </body>
+</html>
