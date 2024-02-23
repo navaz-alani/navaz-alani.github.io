@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<link rel="stylesheet" href="/_assets/main.css" />
+
+    <title>Information Encoding - My site</title>
+  <link rel="stylesheet" href="/_markdown_plugin_assets/highlight.js/atom-one-light.css" /></head>
+  <body>
+    <div class="main">
+      <nav class="navigation">
+        <a href="/">My site</a>
+      </nav>
+      <article>
+        <header>
+          <h1 class="article-title">Information Encoding</h1>
+          <div class="article-info">
+            <div>
+              <span
+                >Created At：<time datetime="1708660923314"
+                  >2024-02-22 21:02</time
+                ></span
+              >
+              <span
+                >Updated At：<time datetime="1708661128689"
+                  >2024-02-22 21:05</time
+                ></span
+              >
+            </div>
+            
+          </div>
+        </header>
+        <div class="article-content markdown-body"><h1 id="information-encoding">Information Encoding</h1>
+<p><em>A High Level Overview</em></p>
+<hr />
+<p>This document aims to understand what file encodings are, why they are important and how applications use them. Let's get started.</p>
+<h2 id="what-are-encodings">What are Encodings?</h2>
+<p>Surely, most of us have heard that computers process ones and zeroes. And at the lowest level, that is very true. Information is stored in binary and this is what the CPU deals with. The reason behind this goes into physics and hardware and is pretty interesting to learn about, but that's not the point of this document.</p>
+<p>Keeping this fact in mind, a big question arises. How does one express a word document, powerpoint presentation, music files, videos or virtually any information in binary for the CPU to deal with? The answer is not a universal one which works for all files.</p>
+<h2 id="text-encoding">Text Encoding</h2>
+<p>Let's start off simple and begin by focusing on <code>.txt</code> i.e. text files. And for even more simplicity, let's assume we are only dealing with characters of the Englsh alphabet (a-z,  A-Z, 0-9, punctuations and symbols). How would one go about unambiguously expressing such a text file into binary?</p>
+<p>Well, a simple way would be to list out the characters we have to deal with and assign a binary value to each of them. Then, when encoding the file into binary, we use the assigned binary value in place of the character. This works but it's 90% of the answer.</p>
+<p>Say we just want to encode the first 10 lowercase English characters.<br />
+When counting from 1 to 10 in binary, the length of the binary representation changes...<br />
+1 is just <code>1</code> and 10 is <code>1010</code>. So if we assigned <code>a</code> (1st letter) to <code>1</code> and <code>j</code> (10th letter) to <code>1010</code>, the string <code>aj</code> would be encoded as <code>11010</code>. This is problematic! Where does one break this binary representation to get back the origial text? If I break it up as <code>110</code> and <code>10</code> (<code>6</code> and <code>2</code>), this would translate to <code>fb</code> (f-&gt;6th letter and b-&gt;2nd letter) which is far from the original text <code>aj</code>.</p>
+<p>So, to solve this, we can use blocks of a certain length (4 is adequate for this case). Therefore, we write 1 as <code>0001</code> instead of <code>1</code>. After this modification, <code>aj</code> is now encoded as <code>00011010</code>. To get the text representation back, we break this binary representation into blocks of length 4 and convert them back to their respective characters. So <code>00011010</code> breaks up to be <code>0001</code> and <code>1010</code> which gives us back <code>aj</code>! Great, we have come up a very simple encoding which works for the first 10 lowercase characters of the English alphabet.</p>
+<h2 id="standardizing-encodings">Standardizing Encodings</h2>
+<p>But wait, there's another issue. If you had to do the same thing at home, the chances are that you would come up with a different encoding from someone else doing the same activity. If you decide that <code>a</code> is <code>0001</code> but someone else decides to encode the characters in reverse order, <code>a</code> for them could be <code>1010</code>! So if you encode and send that person a message, it will probably be jibberish for them.</p>
+<p>Turns out, this is the same problem faced in the early days of computing in the US. Different encodings are a pain to deal with so a committee decided to standardize an encoding for the set of characters which were being used back then. The encoding that they came up was called ASCII (American Standard Code for Information Interchange) and it is still being used today (to some extent).</p>
+<p>ASCII works for a total 128 characters, so the minimum required block width is 7 (<code>2^7=128</code>). But computers deal in bytes which contain 8 bits. So ASCII uses blocks of length 8. You can see below that the first number in each binary block is <code>0</code>.</p>
+<p>Therefore, using ASCII, we the string <code>hello world</code> is encoded as:<br />
+<code>0110100001100101011011000110110001101111001000000111011101101111011100100110110001100100</code>.<br />
+But this looks ugly, so we break it up into blocks of 8:<br />
+<code>01101000 01100101 01101100 01101100 01101111 00100000 01110111 01101111 01110010 01101100 01100100</code>,<br />
+from which it is clearly visible that:</p>
+<div><pre class="hljs"><code><span class="hljs-number">01101000</span> =&gt; <span class="hljs-string">'h'</span>
+<span class="hljs-number">01100101</span> =&gt; <span class="hljs-string">'e'</span>
+<span class="hljs-number">01101100</span> =&gt; <span class="hljs-string">'l'</span>
+<span class="hljs-number">01101100</span> =&gt; <span class="hljs-string">'l'</span>
+<span class="hljs-number">01101111</span> =&gt; <span class="hljs-string">'0'</span>
+<span class="hljs-number">00100000</span> =&gt; <span class="hljs-string">' '</span>
+<span class="hljs-number">01110111</span> =&gt; <span class="hljs-string">'w'</span>
+<span class="hljs-number">01101111</span> =&gt; <span class="hljs-string">'o'</span>
+<span class="hljs-number">01110010</span> =&gt; <span class="hljs-string">'r'</span>
+<span class="hljs-number">01101100</span> =&gt; <span class="hljs-string">'l'</span>
+<span class="hljs-number">01100100</span> =&gt; <span class="hljs-string">'d'</span></code></pre></div>
+<p>This can also be seen if the string <code>hello world</code> were saved to a text file. The final sequence <code>00001010</code> (10) is the newline character, equivalent to pressing 'Return' or 'Enter'.</p>
+<div><pre class="hljs"><code><span class="hljs-comment"># save string into file.txt</span>
+$ <span class="hljs-built_in">echo</span> <span class="hljs-string">"hello world"</span> &gt; file.txt
+<span class="hljs-comment"># view the binary data stored in file.txt</span>
+$ xxd -b file.txt
+01101000 01100101 01101100 01101100 01101111 00100000  hello 
+01110111 01101111 01110010 01101100 01100100 00001010  world.</code></pre></div>
+<p>So now you know about basic text encoding! But what about characters in other languages, emojis and all of that fun stuff? Well with the rise of the internet, this did become a problem because different countries would have their own encodings and as we have seen, this leads to jibberish. So the Unicode Consortium was formed and they came up with the UTF-8 encoding. This encoding is international and handles each character in most modern languages (oh, and emojis too). Check out the  <a title="https://home.unicode.org/" href="https://home.unicode.org/">Unicode Consortium</a> for more details on UTF-8 and their great work!</p>
+<h2 id="applicationfile-specific-encodings">Application/File Specific Encodings</h2>
+<p>So we have covered how to encode plain text but the problem is that not all information is plain text. A word document is not plain text - it includes information on how the document is formatted, images and much more. Music files (<code>.mp3</code> and so on) encode audio by describing sound through mathematics.</p>
+<p>As you can see, different formats require different encodings. Microsoft Word understands how to interpret binary information describing a word document. A music player is suited to interpret binary data describing sound. If you try to open a word document or a music file using a text editor (like Notepad or Sublime Text), all you see is jibberish. The editor attempts to interpret the binary data as text but it isn't.</p>
+</div>
+      </article>
+    </div>
+  </body>
+</html>
