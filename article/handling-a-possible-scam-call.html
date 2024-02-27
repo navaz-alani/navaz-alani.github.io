@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<link rel="stylesheet" href="/_assets/main.css" />
+
+    <title>Handling a possible SCAM call - Navaz&#39;s Homepage</title>
+  </head>
+  <body>
+    <div class="main">
+      <nav class="navigation">
+        <a href="/">Navaz&#39;s Homepage</a>
+      </nav>
+      <article>
+        <header>
+          <h1 class="article-title">Handling a possible SCAM call</h1>
+          <div class="article-info">
+            <div>
+              <span
+                >Created At：<time datetime="1708976053961"
+                  >2024-02-26 12:34</time
+                ></span
+              >
+              <span
+                >Updated At：<time datetime="1709007052165"
+                  >2024-02-26 21:10</time
+                ></span
+              >
+            </div>
+            
+          </div>
+        </header>
+        <div class="article-content markdown-body"><h1 id="handling-a-possible-scam-call">Handling a possible SCAM call</h1>
+<h2 id="what-happened">What Happened</h2>
+<p>Today I got called by <code>647</code> number, with a Thomas Hill on the line, who had a Russian/European accent. He claimed that he works for <code>blockchain.com</code> and is involved in account recovery, which is why I'm supposed to believe that the domain <code>recoveringblockchain.com</code> is legitimate.<br />
+I previously had a coinbase account, and I thought that there could be a chance that this was still legitimate, so I proceeded with extreme caution. "Thomas" asked me if I can share my screen so he can "explain" to me what wallet I was going to recover, and show me how to recover it. I knew that screen sharing is not really a way for someone to access my information or gain control of my system, and I was not going to open my bank account while screen sharing, so I accepted and he emailed me a zoom link. I joined the meeting from a private browser window, and shared only the private browsing window.<br />
+Next, he sent a link to a transaction on <code>blockchain.com</code>. The wallet had a balance of around $50K USD, and I immediately thought that there's no way that this is legitimate. I figured that I would have to pay "account recovery fees" before the funds could be accessed, and the scammers would ghost me after receiving the payment.<br />
+Anyways, I insisted on them being straight forward and telling me the next steps. He told me that next they would transfer the funds to a crypto account I own (they have to verify this). I was of course very skeptical, and to be honest I was being very closed off, so he said he'd send me an email and I can verify that it's legitimate.<br />
+Well after receiving the email, from the <code>@recoveringblockchain.com</code> domain, I knew that this was definitely a scam. I looked up the <code>blockchain.com</code> support page, and it clearly said that they don't call you, and they only send emails from the <code>blockchain.com</code> apex domain - I knew then that I was being targeted by scammers.</p>
+<h2 id="preventing-any-future-damage">Preventing any Future Damage</h2>
+<p>Now that I knew who I was up against was malicious, I wanted to introduce roadblocks for them, and at the very least I did the following.</p>
+<ul>
+<li class="md-checkbox joplin-checkbox"><div class="checkbox-wrapper"><input type="checkbox" id="md-checkbox-15" checked="checked" /><label id="cb-label-md-checkbox-15" for="md-checkbox-15" class="checkbox-label-checked">Register complaints with the authorities.</label></div>
+<ul>
+<li class="md-checkbox joplin-checkbox"><div class="checkbox-wrapper"><input type="checkbox" id="md-checkbox-16" checked="checked" /><label id="cb-label-md-checkbox-16" for="md-checkbox-16" class="checkbox-label-checked">The domain registrar, which is where the domain name's ownership is managed.</label></div>
+<ul>
+<li>Using <code>whois recoveringblockchain.com</code> command</li>
+<li>Determined to be <code>namesilo</code></li>
+<li>Reported to <code>abuse@namesilo.com</code></li>
+</ul>
+</li>
+<li class="md-checkbox joplin-checkbox"><div class="checkbox-wrapper"><input type="checkbox" id="md-checkbox-17" checked="checked" /><label id="cb-label-md-checkbox-17" for="md-checkbox-17" class="checkbox-label-checked">Email provider, which sends and receives mail for the domain.</label></div>
+<ul>
+<li>Using <code>dig -tMX recoveringblockchain.com</code></li>
+<li>Determined to be <code>titan email</code></li>
+<li>Reported to <code>abuse@titan.email</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+      </article>
+    </div>
+  </body>
+</html>
