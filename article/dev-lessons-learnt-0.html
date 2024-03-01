@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<link rel="stylesheet" href="/_assets/main.css" />
+
+    <title>[dev] Lessons Learnt - 0 - Navaz&#39;s Homepage</title>
+  <link rel="stylesheet" href="/_markdown_plugin_assets/katex/katex.css" /></head>
+  <body>
+    <div class="main">
+      <nav class="navigation">
+        <a href="/">Navaz&#39;s Homepage</a>
+      </nav>
+      <article>
+        <header>
+          <h1 class="article-title">[dev] Lessons Learnt - 0</h1>
+          <div class="article-info">
+            <div>
+              <span
+                >Created At：<time datetime="1709330905832"
+                  >2024-03-01 15:08</time
+                ></span
+              >
+              <span
+                >Updated At：<time datetime="1709335856042"
+                  >2024-03-01 16:30</time
+                ></span
+              >
+            </div>
+            
+          </div>
+        </header>
+        <div class="article-content markdown-body"><p>At work, I once dealt with the problem of, in general, given a set of (rectangular) geo-boundaries and a point <span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi></mrow><annotation encoding="application/x-tex">P</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em"></span><span class="mord mathnormal" style="margin-right:0.13889em">P</span></span></span></span></span>, find the geo-boundary closest to <span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi></mrow><annotation encoding="application/x-tex">P</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em"></span><span class="mord mathnormal" style="margin-right:0.13889em">P</span></span></span></span></span>. To optimize and reduce the number of geo-boundaries I would have to compare against <span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi></mrow><annotation encoding="application/x-tex">P</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em"></span><span class="mord mathnormal" style="margin-right:0.13889em">P</span></span></span></span></span>, I thought of a binary search-like approach. Starting with a bounding box around all of the geo-boundaries, this approach involved halfing the remaining bounding box (keeping the half <span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi></mrow><annotation encoding="application/x-tex">P</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em"></span><span class="mord mathnormal" style="margin-right:0.13889em">P</span></span></span></span></span> is in), until we remain with a small enough set of geo-boundaries in the bounding box to compare <span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi></mrow><annotation encoding="application/x-tex">P</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em"></span><span class="mord mathnormal" style="margin-right:0.13889em">P</span></span></span></span></span> against (and finally return the "closest" one).<br />
+I learnt a couple of key lessons that day:</p>
+<ol>
+<li>
+<p>Ask yourself, does efficiency really matter in the specific situation at hand?</p>
+<ul>
+<li>Efficiency is a desirable property in an implementation but it comes at a cost, usually the complexity &amp; maintainability of the implementation. When you have to move fast (implement lots of features in successive iterations), maintaining a complex component (which can require specialized knowledge) can even slow down progress.</li>
+<li>In my case, there were only a dozen or so geo-boundaries to search against so the performance gains by applying the optimization would not be worth the effort of implementing and maintaining the optimization. I think there's an 80/20 saying about optimization which goes something like this:
+<blockquote>
+<p>The last 20% of optimization benefits (80% to 100%) comes at the cost of 80% of effort".</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>
+<p>Similarly, is it worth introducing complexity to the codebase for the last 20% optimization (unless it's absolutely necessary)?</p>
+<ul>
+<li>If there's a small subset of people on a team who can maintain a certain functionality (the optimization) due to the complexity &amp; knowledge isolation, then this introduces a scheduling constraint (namely that the maintainers must work on the functionality, because no one else can) which can slow down progress in a fast paced environment.</li>
+<li>There's a cost to educating fellow team members about an implementation so that they can maintain it. Even if the idea behind an implementation may be simple, usually the devil is in the details; there's specific nuances, or gotchas that will always be present.</li>
+<li>Introducing more complexity comes with a strong possibility of introducing new bugs into the codebase (let's be honest - we all know testing is important but it's hard to keep the tests up to date and making thorough test suites takes some time).</li>
+</ul>
+</li>
+</ol>
+<p>It's a bitter sweet feeling thinking of something simple yet elegant, and finding out that it's already been thought of (even though the simple stuff is more likely to have already been thought of).<br />
+I felt good that the binary-search approach was a viable one; I even implemented it, found edge cases which and realized that working on covering the edge cases and optimizing it (so it doesn't end up doing more work than the iterative compare-all approach) will take some effort and in the bigger picture, it's not worth it.</p>
+<p><strong>Context</strong>: This has all been inspired by my experiences at work. I work in a small team of developers in a start-up so it can be quite fast paced since there's an evolving product roadmap and features to develop.</p>
+</div>
+      </article>
+    </div>
+  </body>
+</html>
